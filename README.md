@@ -25,4 +25,4 @@ GOPROXY=direct go get https://github.com/reiver/go-xml
 
 ## Author
 
-Package **xml** was written by [Charles Iliya Krempeaux](http://changelog.ca)
+Package **xml** was written by [Charles Iliya Krempeaux](http://reiver.link)
