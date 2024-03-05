@@ -1,19 +1,17 @@
-package xmlparticle
+package xmlcodec
 
 import (
 	"io"
-
-	"github.com/reiver/go-xml/codec"
 )
 
-type internalCharacterDataEncoder interface {
+type CharacterDataEncoder interface {
 	EncodeXMLCharacterData(io.Writer) error
 }
 
-func characterDataEncoder(value any) internalCharacterDataEncoder {
+func ReturnCharacterDataEncoder(value any) CharacterDataEncoder {
 
 	switch casted := value.(type) {
-	case internalCharacterDataEncoder:
+	case CharacterDataEncoder:
 		return casted
 	case string:
 		return stringCharacterDataEncoder(casted)
@@ -29,10 +27,10 @@ func characterDataEncoder(value any) internalCharacterDataEncoder {
 
 type stringCharacterDataEncoder string
 func (receiver stringCharacterDataEncoder) EncodeXMLCharacterData(writer io.Writer) error {
-	return xmlcodec.EncodeCharacterDataString(writer, string(receiver))
+	return EncodeCharacterDataString(writer, string(receiver))
 }
 
 type bytesCharacterDataEncoder []byte
 func (receiver bytesCharacterDataEncoder) EncodeXMLCharacterData(writer io.Writer) error {
-	return xmlcodec.EncodeCharacterDataBytes(writer, []byte(receiver))
+	return EncodeCharacterDataBytes(writer, []byte(receiver))
 }
