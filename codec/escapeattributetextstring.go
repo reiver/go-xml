@@ -15,6 +15,10 @@ import (
 //	'>' -> '&gt;'
 func EscapeAttributeTextString(writer io.Writer, p string) (err error) {
 
+	if nil == writer {
+		return errNilWriter
+	}
+
 	var buffer [1]byte
 	var pp []byte = buffer[:]
 
