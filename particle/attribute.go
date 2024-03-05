@@ -7,6 +7,7 @@ import (
 	"sourcecode.social/reiver/go-erorr"
 )
 
+// Attribute is a helper type that can be used to encode an XML attribute.
 type Attribute struct {
 	Name string
 	Value any
