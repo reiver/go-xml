@@ -4,14 +4,14 @@ import (
 	"io"
 )
 
-// EscapeTextString writes the text in 'p' to 'writer', where the following escaping happens:
+// EncodeCharacterDataString writes the text in 'p' to 'writer', where the following escaping happens:
 //
 //	'&' -> '&amp;'
 //
 //	'<' -> '&lt;'
 //
 //	'>' -> '&gt;'
-func EscapeTextString(writer io.Writer, p string) (err error) {
+func EncodeCharacterDataString(writer io.Writer, p string) (err error) {
 
 	var buffer [1]byte
 	var pp []byte = buffer[:]

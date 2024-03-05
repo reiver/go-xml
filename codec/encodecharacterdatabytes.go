@@ -4,14 +4,14 @@ import (
 	"io"
 )
 
-// EscapeTextBytes writes the text in 'p' to 'writer', where the following escaping happens:
+// EncodeCharacterDataBytes writes the text in 'p' to 'writer', where the following escaping happens:
 //
 //	'&' -> '&amp;'
 //
 //	'<' -> '&lt;'
 //
 //	'>' -> '&gt;'
-func EscapeTextBytes(writer io.Writer, p []byte) (err error) {
+func EncodeCharacterDataBytes(writer io.Writer, p []byte) (err error) {
 
 	var buffer [1]byte
 	var pp []byte = buffer[:]
