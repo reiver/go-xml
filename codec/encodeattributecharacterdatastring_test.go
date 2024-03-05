@@ -8,7 +8,7 @@ import (
 	"github.com/reiver/go-xml/codec"
 )
 
-func TestEscapeAttributeTextBytes(t *testing.T) {
+func TestEncodeAttributeCharacterDataString(t *testing.T) {
 
 	tests := []struct{
 		Data string
@@ -84,11 +84,9 @@ func TestEscapeAttributeTextBytes(t *testing.T) {
 
 	for testNumber, test := range tests {
 
-		var p []byte = []byte(test.Data)
-
 		var actualBuffer strings.Builder
 
-		err := xmlcodec.EscapeAttributeTextBytes(&actualBuffer, p)
+		err := xmlcodec.EncodeAttributeCharacterDataString(&actualBuffer, test.Data)
 		if nil != err {
 			t.Errorf("For test #%d, did not expect an error but actually got one." , testNumber)
 			t.Logf("ERROR: (%T) %s", err, err)

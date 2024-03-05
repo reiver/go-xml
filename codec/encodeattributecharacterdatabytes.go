@@ -4,7 +4,7 @@ import (
 	"io"
 )
 
-// EscapeAttributeTextString writes the text in 'p' to 'writer', where the following escaping happens:
+// EncodeAttributeCharacterDataBytes writes the text in 'p' to 'writer', where the following escaping happens:
 //
 //	'"' -> '&quot;'
 //
@@ -13,7 +13,7 @@ import (
 //	'<' -> '&lt;'
 //
 //	'>' -> '&gt;'
-func EscapeAttributeTextString(writer io.Writer, p string) (err error) {
+func EncodeAttributeCharacterDataBytes(writer io.Writer, p []byte) (err error) {
 
 	if nil == writer {
 		return errNilWriter
@@ -22,11 +22,7 @@ func EscapeAttributeTextString(writer io.Writer, p string) (err error) {
 	var buffer [1]byte
 	var pp []byte = buffer[:]
 
-	var length int = len(p)
-
-	for i:=0; i<length; i++ {
-		var b byte = p[i]
-
+	for _, b := range p {
 		switch b {
 		case '"':
 			_, err = writer.Write(quot)
