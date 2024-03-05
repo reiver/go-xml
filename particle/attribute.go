@@ -5,6 +5,8 @@ import (
 	"strings"
 
 	"sourcecode.social/reiver/go-erorr"
+
+	"github.com/reiver/go-xml/codec"
 )
 
 // Attribute is a helper type that can be used to encode an XML attribute.
@@ -32,7 +34,7 @@ func (receiver Attribute) EncodeXMLAttribute(writer io.Writer) (err error) {
 		value = ""
 	}
 
-	var xmlAttributeCharacterDataEncoder internalAttributeCharacterDataEncoder = attributeCharacterDataEncoder(value)
+	var xmlAttributeCharacterDataEncoder xmlcodec.AttributeCharacterDataEncoder = xmlcodec.ReturnAttributeCharacterDataEncoder(value)
 	if nil == xmlAttributeCharacterDataEncoder {
 		return erorr.Errorf("xml: cannot encode %T.Value of type %T into XML attribute character data.", receiver, receiver.Value)
 	}

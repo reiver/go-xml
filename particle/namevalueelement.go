@@ -5,6 +5,8 @@ import (
 	"strings"
 
 	"sourcecode.social/reiver/go-erorr"
+
+	"github.com/reiver/go-xml/codec"
 )
 
 // NameValueElement is a helper type that can be used to encode an simple name-value XML attribute (that does NOT have any attributes and whose content is only character text).
@@ -31,7 +33,7 @@ func (receiver NameValueElement) EncodeXML(writer io.Writer) (err error) {
 		value = ""
 	}
 
-	var xmlCharacterDataEncoder internalCharacterDataEncoder = characterDataEncoder(value)
+	var xmlCharacterDataEncoder xmlcodec.CharacterDataEncoder = xmlcodec.ReturnCharacterDataEncoder(value)
 	if nil == xmlCharacterDataEncoder {
 		return erorr.Errorf("xml: cannot encode %T.Value of type %T into XML character data.", receiver, receiver.Value)
 	}
