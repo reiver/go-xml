@@ -29,10 +29,10 @@ func attributeCharacterDataEncoder(value any) internalAttributeCharacterDataEnco
 
 type stringAttributeCharacterDataEncoder string
 func (receiver stringAttributeCharacterDataEncoder) EncodeXMLAttributeCharacterData(writer io.Writer) error {
-	return xmlcodec.EscapeAttributeTextString(writer, string(receiver))
+	return xmlcodec.EncodeAttributeCharacterDataString(writer, string(receiver))
 }
 
 type bytesAttributeCharacterDataEncoder []byte
 func (receiver bytesAttributeCharacterDataEncoder) EncodeXMLAttributeCharacterData(writer io.Writer) error {
-	return xmlcodec.EscapeAttributeTextBytes(writer, []byte(receiver))
+	return xmlcodec.EncodeAttributeCharacterDataBytes(writer, []byte(receiver))
 }
