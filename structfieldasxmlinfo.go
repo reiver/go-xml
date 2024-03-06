@@ -4,30 +4,32 @@ import (
 	"reflect"
 )
 
-func structFieldAsXMLInfo(structField *reflect.StructField) (name string, isAttribute bool, err error) {
+func structFieldAsXMLInfo(result *structFieldXMLInfo, structField *reflect.StructField) (err error) {
 
 	if nil == structField {
-		return "", false, errNilReflectedStructField
+		return errNilReflectedStructField
 	}
 
 	if !structField.IsExported() {
-		return "", false, errNotExported
+		return errNotExported
 	}
 
 	{
 		tag, found := structField.Tag.Lookup("xml")
 		if !found {
-			return structField.Name, false, nil
+			result.Name = structField.Name
+			return nil
 		}
 
-		name, isAttribute = parseTagStructField(tag)
-		if "" == name {
-			name = structField.Name
+		parseTagStructField(result, tag)
+
+		if "" == result.Name {
+			result.Name = structField.Name
 		}
-		if "" == name {
-			return "", false, errEmptyXMLElementName
+		if "" == result.Name {
+			return errEmptyXMLElementName
 		}
 	}
 
-	return name, isAttribute, nil
+	return nil
 }

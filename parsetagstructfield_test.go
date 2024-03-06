@@ -8,120 +8,149 @@ func TestParseTagStructField(t *testing.T) {
 
 	tests := []struct{
 		Value string
-		ExpectedName string
-		ExpectedIsAttribute bool
+		Expected structFieldXMLInfo
 	}{
 		{
 			Value: "",
-			ExpectedName: "",
-			ExpectedIsAttribute: false,
+			Expected: structFieldXMLInfo{
+				Name: "",
+				Attr: false,
+				OmitEmpty: false,
+			},
 		},
 
 
 		{
 			Value: "apple",
-			ExpectedName: "apple",
-			ExpectedIsAttribute: false,
+			Expected: structFieldXMLInfo{
+				Name: "apple",
+				Attr: false,
+				OmitEmpty: false,
+			},
 		},
 		{
 			Value: "BANANA",
-			ExpectedName: "BANANA",
-			ExpectedIsAttribute: false,
+			Expected: structFieldXMLInfo{
+				Name: "BANANA",
+				Attr: false,
+				OmitEmpty: false,
+			},
 		},
 		{
 			Value: "Cherry",
-			ExpectedName: "Cherry",
-			ExpectedIsAttribute: false,
+			Expected: structFieldXMLInfo{
+				Name: "Cherry",
+				Attr: false,
+				OmitEmpty: false,
+			},
 		},
 
 
 
 		{
 			Value: "apple,attr",
-			ExpectedName: "apple",
-			ExpectedIsAttribute: true,
+			Expected: structFieldXMLInfo{
+				Name: "apple",
+				Attr: true,
+				OmitEmpty: false,
+			},
 		},
 		{
 			Value: "BANANA,attr",
-			ExpectedName: "BANANA",
-			ExpectedIsAttribute: true,
+			Expected: structFieldXMLInfo{
+				Name: "BANANA",
+				Attr: true,
+				OmitEmpty: false,
+			},
 		},
 		{
 			Value: "Cherry,attr",
-			ExpectedName: "Cherry",
-			ExpectedIsAttribute: true,
+			Expected: structFieldXMLInfo{
+				Name: "Cherry",
+				Attr: true,
+				OmitEmpty: false,
+			},
 		},
 
 
 
 		{
 			Value: "apple,attr,wow",
-			ExpectedName: "apple",
-			ExpectedIsAttribute: true,
+			Expected: structFieldXMLInfo{
+				Name: "apple",
+				Attr: true,
+				OmitEmpty: false,
+			},
 		},
 		{
 			Value: "BANANA,attr,wow",
-			ExpectedName: "BANANA",
-			ExpectedIsAttribute: true,
+			Expected: structFieldXMLInfo{
+				Name: "BANANA",
+				Attr: true,
+				OmitEmpty: false,
+			},
 		},
 		{
 			Value: "Cherry,attr,wow",
-			ExpectedName: "Cherry",
-			ExpectedIsAttribute: true,
+			Expected: structFieldXMLInfo{
+				Name: "Cherry",
+				Attr: true,
+				OmitEmpty: false,
+			},
 		},
 
 
 
 		{
 			Value: "apple,wow,attr",
-			ExpectedName: "apple",
-			ExpectedIsAttribute: true,
+			Expected: structFieldXMLInfo{
+				Name: "apple",
+				Attr: true,
+				OmitEmpty: false,
+			},
 		},
 		{
 			Value: "BANANA,wow,attr",
-			ExpectedName: "BANANA",
-			ExpectedIsAttribute: true,
+			Expected: structFieldXMLInfo{
+				Name: "BANANA",
+				Attr: true,
+				OmitEmpty: false,
+			},
 		},
 		{
 			Value: "Cherry,wow,attr",
-			ExpectedName: "Cherry",
-			ExpectedIsAttribute: true,
+			Expected: structFieldXMLInfo{
+				Name: "Cherry",
+				Attr: true,
+				OmitEmpty: false,
+			},
 		},
 
 
 
 		{
 			Value: " Cherry\t,  \t wow  ,\t\t attr\t",
-			ExpectedName: "Cherry",
-			ExpectedIsAttribute: true,
+			Expected: structFieldXMLInfo{
+				Name: "Cherry",
+				Attr: true,
+				OmitEmpty: false,
+			},
 		},
 	}
 
 	for testNumber, test := range tests {
 
-		actualName, actualIsAttribute := parseTagStructField(test.Value)
+		var actual structFieldXMLInfo
+
+		parseTagStructField(&actual, test.Value)
 
 		{
-			expected := test.ExpectedName
-			actual   := actualName
+			expected := test.Expected
 
 			if expected != actual {
-				t.Errorf("For test #%d, the actual 'name' is not what was expected.", testNumber)
-				t.Logf("EXPECTED: %q", expected)
-				t.Logf("ACTUAL:   %q", actual)
-				t.Logf("VALUE: %q", test.Value)
-				continue
-			}
-		}
-
-		{
-			expected := test.ExpectedIsAttribute
-			actual   := actualIsAttribute
-
-			if expected != actual {
-				t.Errorf("For test #%d, the actual 'is-attribute' is not what was expected.", testNumber)
-				t.Logf("EXPECTED: %t", expected)
-				t.Logf("ACTUAL:   %t", actual)
+				t.Errorf("For test #%d, the actual 'structFieldXMLInfo' is not what was expected.", testNumber)
+				t.Logf("EXPECTED: %#v", expected)
+				t.Logf("ACTUAL:   %#v", actual)
 				t.Logf("VALUE: %q", test.Value)
 				continue
 			}

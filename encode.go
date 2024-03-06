@@ -91,18 +91,22 @@ func encodeStructAttributes(writer io.Writer, reflectedType reflect.Type, reflec
 
 	// attributes
 	for i:=0; i < reflectedType.NumField(); i++ {
+
 		var reflectedStructField reflect.StructField = reflectedType.Field(i)
-		var attributeName, isAttribute, err = structFieldAsXMLInfo(&reflectedStructField)
+
+		var xmlinfo structFieldXMLInfo
+		err = structFieldAsXMLInfo(&xmlinfo, &reflectedStructField)
+
 		if errNotExported == err {
 			continue
 		}
 		if nil != err {
 			return err
 		}
-		if !isAttribute {
+		if !xmlinfo.Attr {
 			continue
 		}
-		if "" == attributeName {
+		if "" == xmlinfo.Name {
 			continue
 		}
 
@@ -117,7 +121,7 @@ func encodeStructAttributes(writer io.Writer, reflectedType reflect.Type, reflec
 		if nil != err {return err}
 
 		var attribute xmlparticle.Attribute = xmlparticle.Attribute{
-			Name: attributeName,
+			Name: xmlinfo.Name,
 			Value: attributeValue,
 		}
 
@@ -138,17 +142,20 @@ func encodeStructInner(writer io.Writer, reflectedType reflect.Type, reflectedVa
 	for i:=0; i < reflectedType.NumField(); i++ {
 
 		var reflectedStructField reflect.StructField = reflectedType.Field(i)
-		var elementName, isAttribute, err = structFieldAsXMLInfo(&reflectedStructField)
+
+		var xmlinfo structFieldXMLInfo
+		err = structFieldAsXMLInfo(&xmlinfo, &reflectedStructField)
+
 		if errNotExported == err {
 			continue
 		}
 		if nil != err {
 			return err
 		}
-		if isAttribute {
+		if xmlinfo.Attr {
 			continue
 		}
-		if "" == elementName {
+		if "" == xmlinfo.Name {
 			continue
 		}
 
@@ -160,7 +167,7 @@ func encodeStructInner(writer io.Writer, reflectedType reflect.Type, reflectedVa
 		var elementValue = reflectedStructFieldValue.Interface()
 
 		var namevalue xmlparticle.NameValueElement = xmlparticle.NameValueElement{
-			Name: elementName,
+			Name: xmlinfo.Name,
 			Value: elementValue,
 		}
 

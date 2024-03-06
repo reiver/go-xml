@@ -14,23 +14,27 @@ import (
 //		
 //		// ...
 //	}
-func parseTagStructField(value string) (name string, attr bool) {
+func parseTagStructField(result *structFieldXMLInfo, value string) {
+	if nil == result {
+		return
+	}
+
 	var parts []string = strings.Split(value, ",")
 
 	if len(parts) <= 0 {
-		return "", false
+		return
 	}
 
-	name = strings.TrimSpace(parts[0])
+	result.Name = strings.TrimSpace(parts[0])
 
 	for _, part := range parts[1:] {
 		part = strings.TrimSpace(part)
 
 		switch part {
 		case "attr":
-			attr = true
+			result.Attr = true
+		case "omitempty":
+			result.OmitEmpty = true
 		}
 	}
-
-	return
 }
