@@ -45,6 +45,8 @@ func TestEncode(t *testing.T) {
 		HREF string `xml:",attr"`
 		Name string `xml:"name"`
 		Wow  string
+		Boo1  string `xml:",omitempty"`
+		Boo2  string `xml:",attr,omitempty"`
 	}
 
 

@@ -117,6 +117,12 @@ func encodeStructAttributes(writer io.Writer, reflectedType reflect.Type, reflec
 		var reflectedStructFieldValue reflect.Value = reflectedValue.Field(i)
 		var attributeValue = reflectedStructFieldValue.Interface()
 
+		if xmlinfo.OmitEmpty {
+			if attributeValue == reflect.Zero(reflect.TypeOf(attributeValue)).Interface() {
+				continue
+			}
+		}
+
 		_, err = io.WriteString(writer, " ")
 		if nil != err {return err}
 
@@ -165,6 +171,12 @@ func encodeStructInner(writer io.Writer, reflectedType reflect.Type, reflectedVa
 
 		var reflectedStructFieldValue reflect.Value = reflectedValue.Field(i)
 		var elementValue = reflectedStructFieldValue.Interface()
+
+		if xmlinfo.OmitEmpty {
+			if elementValue == reflect.Zero(reflect.TypeOf(elementValue)).Interface() {
+				continue
+			}
+		}
 
 		var namevalue xmlparticle.NameValueElement = xmlparticle.NameValueElement{
 			Name: xmlinfo.Name,
